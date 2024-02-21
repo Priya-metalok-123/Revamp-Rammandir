@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full-Screen Responsive Video</title>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+    .video-main-enter {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    .video-container {
+        width: 100vw; /* Use viewport units to ensure full-width */
+        height: 100vh; /* Use viewport units to ensure full-height */
+        position: relative;
+    }
+    video {
+        min-width: 100%; /* Ensure the video covers the entire screen */
+        min-height: 100%; /* Ensure the video covers the entire screen */
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Center the video */
+    }
+    .btn-enter {
+        width: 100px;
+        height: 50px;
+        background-color: blanchedalmond;
+        color: black;
+        font-size: 1rem;
+    }
+    .animate {
+        opacity: 0; /* Initially hide the button */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Center the button */
+    }
+    .fade-in-up {
+        animation: fadeInUp 1s ease-out forwards; /* Apply fade-in-up animation */
+    }
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="video-main-enter">
+        <div class="video-container">
+            <video id="main-video" autoplay loop muted playsinline>
+                <source src="./images/Lakshman.mp4" type="video/mp4">
+                <!-- Add additional source elements for other video formats if needed -->
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+    <div id="enter-button" class="animate">
+        <button class="btn-enter" onclick="redirectToAnotherPage()">Enter</button>
+    </div>
+
+<script>
+    const video = document.getElementById('main-video');
+    const enterButton = document.getElementById('enter-button');
+
+    video.addEventListener('timeupdate', function() {
+        if (video.currentTime >= 8 && !enterButton.classList.contains('fade-in-up')) {
+            enterButton.classList.add('fade-in-up');
+            setTimeout(() => {
+                video.pause(); // Pause the video after 2 seconds
+            }, 4000);
+        }
+    });
+
+    function redirectToAnotherPage() {
+        window.location.href = "./slider.html"; // Replace "https://example.com" with your desired URL
+    }
+
+    // Restart video from beginning when the page is refreshed
+    window.onload = function() {
+        video.currentTime = 0;
+    };
+</script>
+
+</body>
+</html>
